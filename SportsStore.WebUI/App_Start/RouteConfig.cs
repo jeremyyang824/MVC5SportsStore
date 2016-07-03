@@ -16,8 +16,28 @@ namespace SportsStore.WebUI
             //从特殊到一般 建立路由规则
             routes.MapRoute(
                 name: null,
+                url: "",
+                defaults: new { controller = "Product", action = "List", category = (string)null, page = 1 }
+            );
+
+            routes.MapRoute(
+                name: null,
                 url: "p{page}",
-                defaults: new { controller = "Product", action = "List" }
+                defaults: new { controller = "Product", action = "List", category = (string)null },
+                constraints: new { page = @"\d+" }
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "{category}",
+                defaults: new { controller = "Product", action = "List", page = 1 }
+            );
+
+            routes.MapRoute(
+                name: null,
+                url: "{category}/p{page}",
+                defaults: new { controller = "Product", action = "List" },
+                constraints: new { page = @"\d+" }
             );
 
             routes.MapRoute(

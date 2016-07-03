@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IProductRepository.cs" />
     <Compile Include="Concrete\EFProductRepository.cs" />
+    <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="EntityConfigurations\ProductConfiguration.cs" />
     <Compile Include="Migrations\201607020831312_Initial.cs" />

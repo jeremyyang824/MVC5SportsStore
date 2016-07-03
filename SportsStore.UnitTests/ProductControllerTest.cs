@@ -29,7 +29,7 @@ namespace SportsStore.UnitTests
             ProductController controller = new ProductController(this.productRepository);
             controller.PageSize = 4;
 
-            var vm = (ProductsListViewModel)controller.List(3).Model;
+            var vm = (ProductsListViewModel)controller.List(null, 3).Model;
 
             Assert.AreEqual(3, vm.PagingInfo.CurrentPage);
             Assert.AreEqual(4, vm.PagingInfo.ItemsPerPage);
@@ -39,6 +39,20 @@ namespace SportsStore.UnitTests
             var products = vm.Products.ToArray();
             Assert.IsTrue(products.Length == 1);
             Assert.AreEqual("Bling-Bling King", products[0].Name);
+        }
+
+        [TestMethod]
+        public void CanFilterProducts()
+        {
+            ProductController controller = new ProductController(this.productRepository);
+            controller.PageSize = 2;
+
+            var vm = (ProductsListViewModel)controller.List("Soccer", 2).Model;
+            var products = vm.Products.ToArray();
+
+            Assert.AreEqual(1, products.Length);
+            Assert.AreEqual("Stadium", products[0].Name);
+            Assert.AreEqual("Soccer", products[0].Category);
         }
 
         private IProductRepository buildMockProductRepository()

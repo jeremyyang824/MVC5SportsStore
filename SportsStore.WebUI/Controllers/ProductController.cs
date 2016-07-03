@@ -11,7 +11,7 @@ namespace SportsStore.WebUI.Controllers
     public class ProductController : Controller
     {
         private IProductRepository repository;
-        public int PageSize = 4;
+        public int PageSize = 3;
 
         public ProductController(IProductRepository productRepository)
         {
@@ -19,20 +19,26 @@ namespace SportsStore.WebUI.Controllers
         }
 
         // GET: Product
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
+            var products = repository.Products
+                .Where(p => category == null || p.Category == category);
+
             ProductsListViewModel model = new ProductsListViewModel
             {
-                Products = repository.Products
+                Products = products
                     .OrderBy(p => p.ProductID)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
 
-                PagingInfo = new PagingInfo{
+                PagingInfo = new PagingInfo
+                {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Products.Count()
-                }
+                    TotalItems = products.Count()
+                },
+
+                CurrentCategory = category
             };
 
             return View(model);
